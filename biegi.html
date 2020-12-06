@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>RUN</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+        body {
+            text-align: center;
+            font-family: Verdana, Geneva, sans-serif;
+        }
+
+        h1 {
+            color: #4d4d4d;
+            font-size: 48px;
+            padding: 10px 0 10px 0;
+        }
+
+        h2 {
+            color: #4d4d4d;
+            font-size: 36px;
+            padding: 10px 0 10px 0;
+        }
+
+        div {
+            width: 50em;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        div [id="tabs-1"] {
+            width: 45em;
+            border-radius: 5px;
+        }
+
+        input[type="month"] {
+            width: 35%;
+            padding: 15px;
+            border: 1px solid #dddddd;
+            border-radius: 7px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            font-size: 24px;
+        }
+
+        input[type="submit"] {
+            width: 35%;
+            padding: 15px;
+            background-color: #5c6369;
+            border: 0;
+            border-radius: 7px;
+            box-sizing: border-box;
+            cursor: pointer;
+            font-weight: bold;
+            color: #ffffff;
+            font-size: 18px;
+        }
+
+        /* table, */
+        td {
+            font-family: Verdana, Geneva, sans-serif;
+            color: #4d4d4d;
+            border: 1px solid rgb(220, 220, 220);
+            border-radius: 5px;
+            padding: 3px;
+        }
+
+        table {
+            margin-right: 0em;
+            margin-left: 0em;
+            border-spacing: 15px;
+        }
+
+        th {
+            font-family: Verdana, Geneva, sans-serif;
+            color: #4d4d4d;
+            border: 1px solid rgb(220, 220, 220);
+            background-color: #0b293a41;
+            border-radius: 5px;
+            padding: 3px;
+
+        }
+
+        td {
+            font-family: Verdana, Geneva, sans-serif;
+            color: #4d4d4d;
+            border: 1px solid #5c6369;
+            border-radius: 5px;
+            padding: 3px;
+
+        }
+    </style>
+
+    <script>
+        let tablica = [];
+
+        function daj_Dzisiaj() {
+            var dzisiaj = new Date();
+            var rok = dzisiaj.getFullYear();
+            var miesiac = dzisiaj.getMonth() + 1;
+
+            dzisiaj = rok + "-" + miesiac;
+            document.getElementById("jakiMiesiac").value = dzisiaj;
+        }
+
+        function push_Miesiac() {
+            var wybor = document.getElementById("jakiMiesiac").value;
+            var jaki_rok = wybor.substring(0, 4);
+            var jaki_miesiac = wybor.substring(5);
+
+            // przygotowanie danych o logowaniu do wysyłki na serwer 
+            let dane_month = {
+                rok: jaki_rok,
+                miesiac: jaki_miesiac,
+            };
+
+            let opcje_month = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(dane_month),
+            };
+            fetch("http://localhost:3000/month", opcje_month) // wysyłka danych o wybranym miesiącu na serwer
+                .then((res_binary) => {
+                    //zamiana odpowiedzi na json
+                    return res_binary.json();
+                })
+                .then((res_json) => {
+                    //document.body.appendChild(new HTM)
+                    const url = `/month`
+                    document.getElementById("tytul").innerHTML = "twoje osiągi: " + daj_Miesiac(jaki_miesiac) + " " + jaki_rok;
+                    document.getElementById("tab1").innerHTML = daj_Miesiac(jaki_miesiac) + " " + jaki_rok;
+
+                    console.log(res_json)
+                    var ileWierszy = res_json.length;
+
+                    for (var i = 0; i < ileWierszy; i++) {
+                        tablica[i] = [];
+                    }
+
+                    for (i = 0; i < ileWierszy; i++) {
+                        let wiersz = document.createElement("tr");
+                        let poleData = document.createElement("td");
+                        wiersz.addEventListener("mouseover", function () { this.style.backgroundColor = "#F0F8FF" })
+                        wiersz.addEventListener("mouseout", function () { this.style.backgroundColor = "white" })
+                        let elementpoleData = document.createTextNode(res_json[i].data);
+
+                        let poleDzien = document.createElement("td");
+                        let elementpoleDzien = document.createTextNode(res_json[i].dzien);
+
+                        let poleWaga = document.createElement("td");
+                        let elementpoleWaga = document.createTextNode(isNull(res_json[i].waga));
+                        //debugger;
+                        let poleDystans = document.createElement("td");
+                        let elementpoleDystans = document.createTextNode(isNull(res_json[i].dystans));
+
+                        poleData.appendChild(elementpoleData);
+                        wiersz.appendChild(poleData);
+
+                        poleDzien.appendChild(elementpoleDzien);
+                        wiersz.appendChild(poleDzien);
+
+                        poleWaga.appendChild(elementpoleWaga);
+                        wiersz.appendChild(poleWaga);
+
+                        poleDystans.appendChild(elementpoleDystans);
+                        wiersz.appendChild(poleDystans);
+                        document.getElementById("miesiac").appendChild(wiersz)
+
+                    }
+                    //window.location.assign(url);
+                })
+                .catch(function (err) {
+                    // Error: response error, request timeout or runtime error
+                    console.log('promise error! ', err);
+                });
+        }
+
+        function isNull(value) {
+            if (value == null) {
+                return 0.00
+            }
+            else {
+                return value
+            }
+        }
+
+        function daj_Miesiac(numer) {
+            switch (numer) {
+                case "01":
+                    return "styczeń";
+                case "02":
+                    return "luty";
+                case "03":
+                    return "marzec";
+                case "04":
+                    return "kwiecień";
+                case "05":
+                    return "maj";
+                case "06":
+                    return "czerwiec";
+                case "07":
+                    return "lipiec";
+                case "08":
+                    return "sierpień";
+                case "09":
+                    return "wrzesień";
+                case "10":
+                    return "październik";
+                case "11":
+                    return "listopad";
+                case "12":
+                    return "grudzień";
+            }
+        }
+
+
+
+        $(document).ready(() => {
+            $(function () {
+                $("#tabs").tabs({
+                    event: "mouseover"
+                });
+            });
+            daj_Dzisiaj();
+            push_Miesiac();
+        })
+
+    </script>
+
+</head>
+
+<body>
+    <h1>RUN</h1>
+    <h2 id="tytul">który miesiąc wyświetlamy?</h2>
+    <div id="tabs">
+        <ul>
+            <li><a href="#tabs-1" id="tab1">pokaż wyniki</a></li>
+            <li><a href="#tabs-2">zmień miesiąc</a></li>
+            <li><a href="#tabs-3">karta trzecia</a></li>
+        </ul>
+        <div id="tabs-1">
+            <table id="miesiac" style="width:100%" autofocus>
+                <tr>
+                    <th id="naglowek">Data</th>
+                    <th id="naglowek">Dzień</th>
+                    <th id="naglowek">Waga</th>
+                    <th id="naglowek">Dystans</th>
+                </tr>
+            </table>
+        </div>
+        <div id="tabs-2">
+            <input type="month" id="jakiMiesiac" min="2012-03"><br>
+        </div>
+
+        <div id="tabs-3">
+            <p id="tekst1">tekst</p>
+            <button id="zmien" onclick="zmien()">Guzik</button>
+        </div>
+    </div>
+    <!--
+    <h2 id="data"></h2>
+      
+    <div></div>
+<select id="month" value=3>
+    <option selected>styczeń</option>
+    <option>luty</option>
+    <option>marzec</option>
+    <option>kwiecień</option>
+    <option>maj</option>
+    <option>czerwiec</option>
+    <option>lipiec</option>
+    <option>sierpień</option>
+    <option>wrzesień</option>
+    <option>październik</option>
+    <option>listopad</option>
+    <option>grudzień</option>
+</select>
+-->
+    <!--
+
+            <tr onmouseover="this.style.backgroundColor='#F0F8FF'"; onmouseout="this.style.backgroundColor='white'">
+                <td >1</th>
+                <td >01-10-2020</th>
+                <td >czwartek</th>
+                <td >76.1</th>
+                <td >12.5</th>
+            </tr>
+            <tr onmouseover="this.style.backgroundColor='#F0F8FF'"; onmouseout="this.style.backgroundColor='white'">
+                <td>2</th>
+                <td >02-10-2020</th>
+                <td >piątek</th>
+                <td >75.9</th>
+                <td >0.0</th>
+            </tr>
+        </table>
+
+        </div>
+        -->
+
+</body>
+
+
+</html>

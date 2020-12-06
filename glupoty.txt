@@ -1,0 +1,79 @@
+
+        /*document.getElementById('test'), addEventListener('click', () => {             alert(1)
+            })*/
+            /*var miesiace=["styczeń","luty","marzec","kwiecień","maj","czerwiec","lipiec","sierpień","wrzesień","październik","listopad","grudzień"];
+            var miesiac=miesiace[dzisiaj.getMonth()];
+            document.getElementById("data").innerHTML = miesiac + " " + rok;*/
+
+
+
+            <input type="submit" onclick="push_Miesiac()" />
+
+        <pre id="test">"tttttt"</pre>
+                    document.getElementById('test').innerHTML = res_json[0].data;
+
+                    //text = "<table>";
+                    for (i = 0; i < fLen; i++) {
+                        text += "<tr>"
+                            + "<td>" + res_json[i].data + "</td>"
+                            + "<td>" + res_json[i].dzien + "</td>"
+                            + "<td>" + res_json[i].waga + "</td>"
+                            + "<td>" + res_json[i].dystans + "</td>"
+                            + "</tr>";
+                    }
+                    //text += "</table>";
+
+
+                    var text, fLen, i;
+                    fLen = res_json.length;
+                    text = "<tr>";
+                    for (i = 0; i < fLen; i++) {
+                        text += "<th>" + res_json[i].data + "</th>"
+                            + "<th>" + res_json[i].dzien + "</th>"
+                            + "<th>" + res_json[i].waga + "</th>"
+                            + "<th>" + res_json[i].dystans + "</th>" + "</tr>";
+                    }
+
+
+                    document.getElementById("demo").innerHTML = text;
+
+                    var tabela = document.createElement("table")
+                    var row = document.createElement("tr")
+                    var pole = document.createElement("th")
+                    var pole1 = document.createElement("th")
+                    row.appendChild(pole)
+                    row.appendChild(pole1)
+                    tabela.appendChild(row)
+                    document.body.appendChild(tabela)
+                    pole.innerText = "Komórka1"
+                    pole1.innerText = "Komórka2"
+
+                    var tabela = document.createElement("table")
+
+                    res_json.array.forEach(element, index => {
+                        var row = document.createElement("tr")
+                        var data = document.createElement("th")
+                        var dzien = document.createElement("th")
+                        var waga = document.createElement("th")
+                        var dystans = document.createElement("th")
+                        row.appendChild(data)
+                        row.appendChild(dzien)
+                        row.appendChild(waga)
+                        row.appendChild(dystans)
+                        data.innerText = res_json[index].data
+                        dzien.innerText = res_json[index].dzien
+                        waga.innerText = res_json[index].waga
+                        dystans.innerText = res_json[index].dystans
+                        tabela.appendChild(row)
+                    });
+
+
+                    document.body.appendChild(tabela)
+
+
+                    let div = document.createElement("h1")
+                    div.innerText = "Test part 1"
+                    document.body.appendChild(div)
+                    div.innerText = "Test part 2"
+                    var ileWierszy = res_json.length;
+

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logowanie</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div>
+      <h1>RUN</h1>
+      <h2>Formularz logowania:</h2>
+      <input
+        id="username"
+        type="text"
+        name="username"
+        placeholder="Username"
+        required
+        autofocus
+      />
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Password"
+        required
+      />
+      <p id="demo" name="demo"></p>
+      <input type="submit" onclick="push_Login()" />
+              <pre id="wynik"></pre>
+    </div>
+
+    <script src="sha256.js"></script>
+    <script src="scripts.js"></script>
+  </body>
+</html>
