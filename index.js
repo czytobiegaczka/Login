@@ -7,7 +7,7 @@ const path = require("path");
 const { Console } = require("console");
 
 const app = express();
-const port = 80;
+const port = 3000;
 
 app.use(
   session({
@@ -28,7 +28,13 @@ var tokens = [];
 var usernamejs;
 var passwordjs;
 var connection = mysql.createConnection({
+  /*
   host: "35.232.102.8",
+  user: "root",
+  password: "macko",
+  database: "trening",
+  */
+  host: "35.188.85.171",
   user: "root",
   password: "macko",
   database: "trening",
