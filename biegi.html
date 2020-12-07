@@ -125,7 +125,7 @@
                 },
                 body: JSON.stringify(dane_month),
             };
-            fetch("http://localhost:3000/month", opcje_month) // wysyłka danych o wybranym miesiącu na serwer
+            fetch("http://35.188.85.171//month", opcje_month) // wysyłka danych o wybranym miesiącu na serwer
                 .then((res_binary) => {
                     //zamiana odpowiedzi na json
                     return res_binary.json();
