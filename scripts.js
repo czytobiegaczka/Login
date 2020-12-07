@@ -15,7 +15,7 @@ function push_Login() {
     },
     body: JSON.stringify(dane_auth),
   };
-  fetch("http://localhost:3000/auth", opcje_auth) // wysyłka danych o logowaniu na serwer
+  fetch("http://35.188.85.171/auth", opcje_auth) // wysyłka danych o logowaniu na serwer
     .then((res) => {
       /*
         W odpowiedzi dostajemy jak "bajty" token
