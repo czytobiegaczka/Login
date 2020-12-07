@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>RUN</title>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -125,7 +125,7 @@
                 },
                 body: JSON.stringify(dane_month),
             };
-            fetch("http://35.188.85.171//month", opcje_month) // wysyłka danych o wybranym miesiącu na serwer
+            fetch("http://35.188.85.171/month", opcje_month) // wysyłka danych o wybranym miesiącu na serwer
                 .then((res_binary) => {
                     //zamiana odpowiedzi na json
                     return res_binary.json();
