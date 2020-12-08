@@ -15,8 +15,8 @@ function push_Login() {
     },
     body: JSON.stringify(dane_auth),
   };
-              let ip = location.host;
-            let url_adress = "http://" + ip + "/auth"
+  let ip = location.host;
+  let url_adress = `http://${ip}/auth`
 
   fetch(url_adress, opcje_auth) // wysyłka danych o logowaniu na serwer
     .then((res) => {

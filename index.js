@@ -1,9 +1,9 @@
 const express = require("express");
 const session = require("express-session");
 const bodyParser = require("body-parser");
-const mysql = require("mysql");
 const cookieParser = require('cookie-parser');
 const path = require("path");
+const baza=require("./connection")
 const { Console } = require("console");
 
 const app = express();
@@ -27,28 +27,17 @@ console.log("Hello world");
 var tokens = [];
 var usernamejs;
 var passwordjs;
-var connection = mysql.createConnection({
-  /*
-  host: "35.232.102.8",
-  user: "root",
-  password: "macko",
-  database: "trening",
-  */
-  host: "35.188.85.171",
-  user: "root",
-  password: "macko",
-  database: "trening",
-});
+
 
 app.post("/auth", (req, res) => {
   usernamejs = req.body.username;
   passwordjs = req.body.password;
 
-  connection.connect((err) => {
+  baza.myConnection().connect((err) => {
     if (err) throw err;
     var random_number = losowa_liczba();
     var sql = "SELECT * FROM `users` WHERE username=? and password=?";
-    connection.query(sql, [usernamejs, passwordjs], function (
+    baza.myConnection().query(sql, [usernamejs, passwordjs], function (
       err,
       result,
       fields
@@ -100,7 +89,7 @@ app.post("/month", (req, res) => {
   console.log(zakres);
 
     var sql = "SELECT data,dzien,waga,dystans FROM `ak_miesiac_zawody` WHERE data like '___"+zakres+"'";
-    connection.query(sql, function (
+    baza.myConnection().query(sql, function (
       err,
       result,
       fields
