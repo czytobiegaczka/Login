@@ -15,7 +15,10 @@ function push_Login() {
     },
     body: JSON.stringify(dane_auth),
   };
-  fetch("http://35.188.85.171/auth", opcje_auth) // wysyłka danych o logowaniu na serwer
+              let ip = location.host;
+            let url_adress = "http://" + ip + "/month"
+
+  fetch(url_adress, opcje_auth) // wysyłka danych o logowaniu na serwer
     .then((res) => {
       /*
         W odpowiedzi dostajemy jak "bajty" token
