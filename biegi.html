@@ -125,7 +125,10 @@
                 },
                 body: JSON.stringify(dane_month),
             };
-            fetch("http://35.188.85.171/month", opcje_month) // wysyłka danych o wybranym miesiącu na serwer
+            let ip = location.host;
+            let url_adress = "http://" + ip + "/month"
+
+            fetch(url_adress, opcje_month) // wysyłka danych o wybranym miesiącu na serwer
                 .then((res_binary) => {
                     //zamiana odpowiedzi na json
                     return res_binary.json();
