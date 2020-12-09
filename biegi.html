@@ -21,6 +21,9 @@
         }
 
         h2 {
+            width: 25em;
+            margin-left: auto;
+            margin-right: auto;
             color: #4d4d4d;
             font-size: 36px;
             padding: 10px 0 10px 0;
@@ -136,14 +139,8 @@
                 .then((res_json) => {
                     //document.body.appendChild(new HTM)
                     const url = `/month`
-                    document.getElementById("tytul").innerHTML = "twoje osiągi: " + daj_Miesiac(jaki_miesiac) + " " + jaki_rok;
                     document.getElementById("tab1").innerHTML = daj_Miesiac(jaki_miesiac) + " " + jaki_rok;
 
-                    var ip = location.host;
-                    console.log(ip)
-                    var ip_name = location.hostname;
-                    console.log(ip_name)
-                    document.getElementById("tekst1").innerHTML = ip + " " + ip_name;
                     console.log(res_json)
 
 
@@ -247,7 +244,10 @@
 
 <body>
     <h1>RUN</h1>
-    <h2 id="tytul">który miesiąc wyświetlamy?</h2>
+    <h2>
+        <label for="jakiMiesiac">twoje osiągi:</label>
+        <input type="month" id="jakiMiesiac" min="2012-03" value="2020-12">
+    </h2>
     <div id="tabs">
         <ul>
             <li><a href="#tabs-1" id="tab1">pokaż wyniki</a></li>
@@ -265,7 +265,7 @@
             </table>
         </div>
         <div id="tabs-2">
-            <input type="month" id="jakiMiesiac" min="2012-03"><br>
+
         </div>
 
         <div id="tabs-3">
