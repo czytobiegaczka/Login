@@ -115,6 +115,15 @@
             var jaki_rok = wybor.substring(0, 4);
             var jaki_miesiac = wybor.substring(5);
 
+            // kasowanie elementów starego miesiąca z tabeli
+            var elmtTable = document.getElementById('miesiac');
+            var tableRows = elmtTable.getElementsByTagName('tr');
+            var rowCount = tableRows.length;
+
+            for (var x = rowCount - 1; x > 0; x--) {
+                elmtTable.removeChild(tableRows[x]);
+            }
+
             // przygotowanie danych o logowaniu do wysyłki na serwer 
             let dane_month = {
                 rok: jaki_rok,
@@ -142,7 +151,6 @@
                     document.getElementById("tab1").innerHTML = daj_Miesiac(jaki_miesiac) + " " + jaki_rok;
 
                     console.log(res_json)
-
 
                     var ileWierszy = res_json.length;
 
@@ -178,6 +186,7 @@
                         poleDystans.appendChild(elementpoleDystans);
                         wiersz.appendChild(poleDystans);
                         document.getElementById("miesiac").appendChild(wiersz)
+
 
                     }
                     //window.location.assign(url);
@@ -246,7 +255,7 @@
     <h1>RUN</h1>
     <h2>
         <label for="jakiMiesiac">twoje osiągi:</label>
-        <input type="month" id="jakiMiesiac" min="2012-03" value="2020-12">
+        <input type="month" id="jakiMiesiac" min="2012-03" value="2020-12" onchange="push_Miesiac()">
     </h2>
     <div id="tabs">
         <ul>
@@ -265,7 +274,7 @@
             </table>
         </div>
         <div id="tabs-2">
-
+            <p id="tekst">tekst</p>
         </div>
 
         <div id="tabs-3">
