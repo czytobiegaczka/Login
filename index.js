@@ -3,11 +3,12 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
 const path = require("path");
-const baza=require("./connection")
+const baza = require("./connection");
+const pool = require("./dbpool");
 const { Console } = require("console");
 
 const app = express();
-const port = 80;
+const port = 3000;
 
 app.use(
   session({
@@ -33,11 +34,9 @@ app.post("/auth", (req, res) => {
   usernamejs = req.body.username;
   passwordjs = req.body.password;
 
-  baza.myConnection().connect((err) => {
-    if (err) throw err;
     var random_number = losowa_liczba();
     var sql = "SELECT * FROM `users` WHERE username=? and password=?";
-    baza.myConnection().query(sql, [usernamejs, passwordjs], function (
+    pool.query(sql, [usernamejs, passwordjs], function (
       err,
       result,
       fields
@@ -48,9 +47,9 @@ app.post("/auth", (req, res) => {
         req.session.loggedin = true;
         res.json({ token: random_number });
       }
-   });
+    });
   });
-});
+
 
 app.post("/bieg", (req, res) => {});
 
@@ -87,21 +86,21 @@ app.post("/month", (req, res) => {
   var jaki_miesiacjs = req.body.miesiac;
   var zakres = jaki_miesiacjs + "." + jaki_rokjs;
   console.log(zakres);
-
-    var sql = "SELECT data,dzien,waga,dystans FROM `ak_miesiac_zawody` WHERE data like '___"+zakres+"'";
-    baza.myConnection().query(sql, function (
+  var sql = "SELECT data,dzien,waga,dystans FROM `ak_miesiac_zawody` WHERE data like '___"+zakres+"'";
+    pool.query(sql, function (
       err,
       result,
       fields
     ) {
       if (err) throw err;
       if (result.length > 0) {
-        console.log(result);
+        //console.log(result);
         res.send(result);
         //res.json(result);
       }
+
     });
-});
+      });
 
 app.get("/month", (req, res) => {
   //            ^ = req.params.id
