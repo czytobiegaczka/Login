@@ -95,6 +95,78 @@
             padding: 3px;
 
         }
+
+        /* The Modal (background) */
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            padding-top: 100px;
+            /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+            border-radius: 15px;
+        }
+
+        /* Modal Content */
+
+        .modal-content {
+            font-family: Verdana, Geneva, sans-serif;
+            font-size: 24px;
+            background-color: #fefefe;
+            margin: auto;
+            border: 1px solid #888;
+            border-radius: 15px;
+            width: 35%;
+        }
+
+        .modal-header {
+            font-family: Verdana, Geneva, sans-serif;
+            color: #4d4d4d;
+            font-size: 28px;
+            font-weight: bold;
+            background-color: #fefefe;
+            border-bottom: 1px solid #888;
+            margin: auto;
+            width: 90%;
+        }
+
+        .modal-body {
+            font-family: Verdana, Geneva, sans-serif;
+            font-size: 24px;
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            width: 90%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 
     <script>
@@ -162,6 +234,7 @@
                         let poleData = document.createElement("td");
                         wiersz.addEventListener("mouseover", function () { this.style.backgroundColor = "#F0F8FF" })
                         wiersz.addEventListener("mouseout", function () { this.style.backgroundColor = "white" })
+                        //wiersz.ondblclick(function () { document.getElementById("tekst").innerHTML = this.innerHTML })
                         let elementpoleData = document.createTextNode(res_json[i].data);
 
                         let poleDzien = document.createElement("td");
@@ -169,6 +242,7 @@
 
                         let poleWaga = document.createElement("td");
                         let elementpoleWaga = document.createTextNode(isNull(res_json[i].waga));
+
                         //debugger;
                         let poleDystans = document.createElement("td");
                         let elementpoleDystans = document.createTextNode(isNull(res_json[i].dystans));
@@ -187,6 +261,40 @@
                         document.getElementById("miesiac").appendChild(wiersz)
 
 
+                    }
+
+                    // Get the modal
+                    var modal = document.getElementById("myModal");
+
+                    // Get the <span> element that closes the modal
+                    var span = document.getElementsByClassName("close")[0];
+
+                    // When the user clicks on <span> (x), close the modal
+                    span.onclick = function () {
+                        modal.style.display = "none";
+                    }
+
+                    // When the user clicks anywhere outside of the modal, close it
+                    window.onclick = function (event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                        }
+                    }
+
+                    var table = document.getElementById('miesiac');
+                    for (var i = 0; i < table.rows.length; i++) {
+                        table.rows[i].addEventListener('click', function () {
+                            var msg = 'JavaScript: ';
+                            for (var j = 0; j < this.cells.length; j++) {
+                                msg += this.cells[j].innerHTML;
+                            }
+                            //alert(msg);
+                            document.getElementById("inmodal-data").innerHTML = this.cells[0].innerHTML;
+                            document.getElementById("inmodal-dzien").innerHTML = this.cells[1].innerHTML;
+                            document.getElementById("inmodal-waga").innerHTML = this.cells[2].innerHTML;
+                            document.getElementById("inmodal-dystans").innerHTML = this.cells[3].innerHTML;
+                            modal.style.display = "block";
+                        });
                     }
                     //window.location.assign(url);
                 })
@@ -259,8 +367,8 @@
     <div id="tabs">
         <ul>
             <li><a href="#tabs-1" id="tab1">pokaż wyniki</a></li>
-            <li><a href="#tabs-2">zmień miesiąc</a></li>
-            <li><a href="#tabs-3">karta trzecia</a></li>
+            <!--<li><a href="#tabs-2"></a></li>
+            <li><a href="#tabs-3"></a></li>-->
         </ul>
         <div id="tabs-1">
             <table id="miesiac" style="width:100%" autofocus>
@@ -281,6 +389,43 @@
             <button id="zmien" onclick="zmien()">Guzik</button>
         </div>
     </div>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <p>osiągi dzienne</p>
+            </div>
+            <div class="modal-body">
+                <table id="indzien" style="width:100%" autofocus>
+                    <tr>
+                        <td>Data</td>
+                        <td id="inmodal-data" onmouseover="this.style.backgroundColor='#F0F8FF'" ;
+                            onmouseout="this.style.backgroundColor='white'"></td>
+                    </tr>
+                    <tr>
+                        <td>Dzień</td>
+                        <td id="inmodal-dzien" onmouseover="this.style.backgroundColor='#F0F8FF'" ;
+                            onmouseout="this.style.backgroundColor='white'"></td>
+                    </tr>
+                    <tr>
+                        <td>Waga</td>
+                        <td id="inmodal-waga" onmouseover="this.style.backgroundColor='#F0F8FF'" ;
+                            onmouseout="this.style.backgroundColor='white'"></td>
+                    </tr>
+                    <tr>
+                        <td>Dystans</td>
+                        <td id="inmodal-dystans" onmouseover="this.style.backgroundColor='#F0F8FF'" ;
+                            onmouseout="this.style.backgroundColor='white'"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
     <!--
     <h2 id="data"></h2>
       
